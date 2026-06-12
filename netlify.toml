@@ -1,0 +1,15 @@
+# Netlify build configuration for the NCFE web app.
+#
+# This file lives inside the `web` git repo, so paths are relative to this
+# folder. Netlify's Next.js runtime handles SSR, App Router routes, image
+# optimization, and middleware.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
