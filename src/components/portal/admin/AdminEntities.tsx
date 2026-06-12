@@ -92,7 +92,7 @@ export default function AdminEntities() {
       </header>
 
       <div className="dashboard-content">
-        <div className="dashboard-stats" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
+        <div className="dashboard-stats dashboard-stats--4">
           <div className="stat-card">
             <div className="stat-card__icon" style={{ background: '#F0FDF4', color: 'var(--green)' }}><Building2 size={22} aria-hidden="true" /></div>
             <div className="stat-card__info"><div className="stat-card__label">Total Entities</div><div className="stat-card__value">1,492</div></div>
@@ -111,21 +111,40 @@ export default function AdminEntities() {
           </div>
         </div>
 
-        <div className="dashboard-card" style={{ padding: 0, marginTop: '24px', overflow: 'visible' }}>
-          <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--gray-200)', display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-            <div style={{ position: 'relative', flex: 1, minWidth: '200px' }}>
-              <Search size={16} style={{ position: 'absolute', left: '14px', top: '11px', color: 'var(--gray-400)' }} aria-hidden="true" />
-              <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" placeholder="Search entity name or ID..."
-                style={{ width: '100%', padding: '9px 14px 9px 40px', border: '1px solid var(--gray-300)', borderRadius: 'var(--radius-sm)', fontSize: '0.875rem', fontFamily: 'inherit' }} />
+        <div className="dashboard-card" style={{ padding: 0, marginTop: '24px' }}>
+          <div className="dashboard-table-toolbar">
+            <div className="dashboard-table-toolbar__search">
+              <Search size={16} aria-hidden="true" />
+              <label className="sr-only" htmlFor="entity-search">
+                Search entity name or ID
+              </label>
+              <input
+                id="entity-search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                type="search"
+                placeholder="Search entity name or ID…"
+              />
             </div>
-            <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} style={{ padding: '9px 14px', border: '1px solid var(--gray-300)', borderRadius: 'var(--radius-sm)', fontSize: '0.875rem', fontFamily: 'inherit' }}>
+            <select
+              className="dashboard-table-toolbar__select"
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              aria-label="Filter by status"
+            >
               <option value="All">All</option><option>Active</option><option>Suspended</option><option>Pending Verification</option>
             </select>
-            <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} style={{ padding: '9px 14px', border: '1px solid var(--gray-300)', borderRadius: 'var(--radius-sm)', fontSize: '0.875rem', fontFamily: 'inherit' }}>
+            <select
+              className="dashboard-table-toolbar__select"
+              value={typeFilter}
+              onChange={(e) => setTypeFilter(e.target.value)}
+              aria-label="Filter by type"
+            >
               <option value="All">All</option><option>School</option><option>College</option><option>Corporate</option><option>NBFC/Bank</option>
             </select>
           </div>
 
+          <div className="dashboard-table-wrap">
           <table className="dashboard-table" style={{ fontSize: '0.875rem' }}>
             <thead>
               <tr>
@@ -178,8 +197,9 @@ export default function AdminEntities() {
               })}
             </tbody>
           </table>
+          </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 24px', borderTop: '1px solid var(--gray-200)', fontSize: '0.875rem', color: 'var(--gray-500)' }}>
+          <div className="dashboard-table-footer">
             <span>Showing <strong style={{ color: 'var(--gray-800)' }}>{filtered.length}</strong> of <strong style={{ color: 'var(--gray-800)' }}>1,492</strong> entities</span>
             <div style={{ display: 'flex', gap: '6px' }}>
               <button type="button" style={pageBtn}><ChevronLeft size={14} aria-hidden="true" /></button>
