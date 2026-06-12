@@ -347,7 +347,7 @@
 }
 
 .topic-tree__panel,
-.topic-tree__create {
+.topic-tree__form {
   background: var(--white);
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-lg);
@@ -406,16 +406,35 @@
   padding: 0;
 }
 
+.topic-tree__note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 24px;
+  font-size: 0.8125rem;
+  color: var(--gray-500);
+  background: #fffbeb;
+  border-bottom: 1px solid #fde68a;
+}
+
 .topic-tree__list {
   padding: 8px 0;
+}
+
+.topic-tree__empty {
+  padding: 32px 24px;
+  text-align: center;
+  color: var(--gray-500);
+  font-size: 0.875rem;
 }
 
 .topic-tree__row {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   min-height: 56px;
-  padding: 8px 14px;
+  padding: 8px 14px 8px 0;
   border-bottom: 1px solid var(--gray-100);
 }
 
@@ -448,17 +467,9 @@
   background: var(--gray-300);
 }
 
-.topic-tree__select {
+.topic-tree__content {
   flex: 1;
   min-width: 0;
-  border: 0;
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  text-align: left;
-  cursor: pointer;
 }
 
 .topic-tree__name {
@@ -493,10 +504,71 @@
   color: var(--gray-600);
 }
 
-.topic-tree__create {
+.topic-tree__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.topic-tree__action-btn {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.topic-tree__action-btn:hover {
+  opacity: 0.85;
+}
+
+.topic-tree__action-btn--add {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.topic-tree__action-btn--edit {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.topic-tree__action-btn--delete {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.topic-tree__form {
   padding: 24px;
   position: sticky;
   top: 104px;
+}
+
+.topic-tree__form-idle {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.topic-tree__help-list {
+  list-style: none;
+  margin: 12px 0 20px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 0.8125rem;
+  color: var(--gray-600);
+}
+
+.topic-tree__help-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .topic-tree__create-icon {
@@ -523,7 +595,7 @@
     grid-template-columns: 1fr;
   }
 
-  .topic-tree__create {
+  .topic-tree__form {
     position: static;
   }
 }
@@ -537,10 +609,15 @@
     width: 100%;
   }
 
-  .topic-tree__select {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 8px;
+  .topic-tree__row {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .topic-tree__actions {
+    width: 100%;
+    justify-content: flex-end;
+    padding-right: 14px;
   }
 }
 
