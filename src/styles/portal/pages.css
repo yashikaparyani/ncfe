@@ -338,6 +338,212 @@
   gap: 8px;
 }
 
+/* Question Bank topic hierarchy */
+.topic-tree {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 20px;
+  align-items: start;
+}
+
+.topic-tree__panel,
+.topic-tree__create {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+}
+
+.topic-tree__panel {
+  overflow: hidden;
+}
+
+.topic-tree__toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--gray-200);
+  background: #f8faff;
+}
+
+.topic-tree__title {
+  margin: 0;
+  color: var(--navy);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.topic-tree__subtitle {
+  margin: 4px 0 0;
+  color: var(--gray-500);
+  font-size: 0.8125rem;
+}
+
+.topic-tree__search {
+  position: relative;
+  width: min(280px, 100%);
+}
+
+.topic-tree__search svg {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-400);
+  pointer-events: none;
+}
+
+.topic-tree__search input {
+  width: 100%;
+  padding-left: 40px;
+}
+
+.topic-tree__list,
+.topic-tree__children {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.topic-tree__list {
+  padding: 8px 0;
+}
+
+.topic-tree__row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 56px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.topic-tree__row--selected {
+  background: #eff6ff;
+}
+
+.topic-tree__toggle {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--gray-500);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.topic-tree__toggle:disabled {
+  cursor: default;
+}
+
+.topic-tree__toggle-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gray-300);
+}
+
+.topic-tree__select {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.topic-tree__name {
+  display: block;
+  color: var(--navy);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.topic-tree__meta {
+  display: block;
+  margin-top: 3px;
+  color: var(--gray-500);
+  font-size: 0.75rem;
+}
+
+.topic-tree__status {
+  flex-shrink: 0;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.topic-tree__status--active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.topic-tree__status--draft {
+  background: var(--gray-100);
+  color: var(--gray-600);
+}
+
+.topic-tree__create {
+  padding: 24px;
+  position: sticky;
+  top: 104px;
+}
+
+.topic-tree__create-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: #eff6ff;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.topic-tree__create-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+@media (max-width: 980px) {
+  .topic-tree {
+    grid-template-columns: 1fr;
+  }
+
+  .topic-tree__create {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .topic-tree__toolbar {
+    flex-direction: column;
+  }
+
+  .topic-tree__search {
+    width: 100%;
+  }
+
+  .topic-tree__select {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
 /* Status badges shared by the list table */
 .pg-badge {
   display: inline-block;

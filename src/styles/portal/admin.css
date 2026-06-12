@@ -108,6 +108,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 24px;
   padding: 0 32px;
   height: 80px;
   background: var(--white);
@@ -115,6 +116,38 @@
   position: sticky;
   top: 0;
   z-index: 9;
+}
+
+.dashboard-header__title {
+  min-width: 0;
+}
+
+.dashboard-header__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.dashboard-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  padding: 8px 16px;
+  background: #DCFCE7;
+  border-radius: var(--radius-sm);
+  color: #166534;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.dashboard-status-pill svg {
+  flex-shrink: 0;
 }
 
 .dashboard-title {
@@ -133,6 +166,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
+  flex-shrink: 0;
 }
 
 .dashboard-user__avatar {
@@ -151,17 +186,20 @@
 .dashboard-user__info {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .dashboard-user__name {
   font-size: 0.875rem;
   font-weight: 700;
   color: var(--gray-900);
+  white-space: nowrap;
 }
 
 .dashboard-user__role {
   font-size: 0.75rem;
   color: var(--gray-500);
+  white-space: nowrap;
 }
 
 /* Content */
@@ -277,4 +315,65 @@
 .quick-link-btn:hover {
   background: var(--gray-50);
   border-color: var(--navy) !important;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-header {
+    align-items: flex-start;
+    height: auto;
+    min-height: 80px;
+    padding: 18px 24px;
+  }
+
+  .dashboard-header__actions {
+    flex-wrap: wrap;
+    row-gap: 10px;
+    max-width: 360px;
+  }
+}
+
+@media (max-width: 760px) {
+  .dashboard-header {
+    position: relative;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px 20px;
+  }
+
+  .dashboard-header__actions {
+    width: 100%;
+    max-width: none;
+    justify-content: space-between;
+  }
+
+  .dashboard-status-pill {
+    flex: 1 1 220px;
+    justify-content: center;
+    padding-inline: 12px;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .dashboard-user {
+    flex: 0 1 auto;
+  }
+}
+
+@media (max-width: 520px) {
+  .dashboard-header__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .dashboard-status-pill,
+  .dashboard-user {
+    width: 100%;
+  }
+
+  .dashboard-user {
+    padding: 10px 12px;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    background: var(--gray-50);
+  }
 }

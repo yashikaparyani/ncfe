@@ -1,8 +1,15 @@
 'use client';
 
-import { useMemo, useState, type ReactNode } from 'react';
-import { Search, Info } from 'lucide-react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { Search, Info, Plus } from 'lucide-react';
 import PortalTopbar from './PortalTopbar';
+import {
+  ConfirmModal,
+  CrudModal,
+  RowActions,
+  type CrudField,
+  type CrudValues,
+} from './admin/Crud';
 import '@/styles/portal/pages.css';
 
 export type ListStatus = 'Active' | 'Pending' | 'Inactive';
@@ -59,6 +66,7 @@ export default function PortalListPage({
   topbar,
   searchLabel,
   filterByCategory = false,
+  enableCrud,
 }: {
   title: string;
   subtitle: string;
@@ -74,19 +82,30 @@ export default function PortalListPage({
    * categories. Defaults to false to keep existing list pages unchanged.
    */
   filterByCategory?: boolean;
+  enableCrud?: boolean;
 }) {
+  const crudEnabled = enableCrud ?? shell === 'admin';
+  const [items, setItems] = useState<ListRow[]>(() => [...rows]);
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState<'All Status' | ListStatus>('All Status');
   const [category, setCategory] = useState('All');
+  const [modal, setModal] = useState<{ mode: 'create' | 'view' | 'edit'; row: ListRow | null } | null>(
+    null,
+  );
+  const [confirm, setConfirm] = useState<ListRow | null>(null);
+
+  useEffect(() => {
+    setItems([...rows]);
+  }, [rows]);
 
   const categories = useMemo(
-    () => Array.from(new Set(rows.map((r) => r.category))).sort((a, b) => a.localeCompare(b)),
-    [rows],
+    () => Array.from(new Set(items.map((r) => r.category))).sort((a, b) => a.localeCompare(b)),
+    [items],
   );
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return rows.filter((r) => {
+    return items.filter((r) => {
       const matchQ =
         !q ||
         r.name.toLowerCase().includes(q) ||
@@ -96,7 +115,47 @@ export default function PortalListPage({
       const matchC = !filterByCategory || category === 'All' || r.category === category;
       return matchQ && matchS && matchC;
     });
-  }, [rows, query, status, category, filterByCategory]);
+  }, [items, query, status, category, filterByCategory]);
+
+  const crudFields: readonly CrudField[] = [
+    { name: 'id', label: 'ID' },
+    { name: 'name', label: 'Name' },
+    { name: 'category', label: categoryLabel },
+    { name: 'status', label: 'Status', type: 'select', options: ['Active', 'Pending', 'Inactive'] },
+  ];
+
+  const nextId = () => {
+    const prefix = items[0]?.id.match(/^[A-Z]+/)?.[0] ?? 'ADM';
+    return `${prefix}-${String(1000 + items.length + 1)}`;
+  };
+
+  const normalizeStatus = (value: unknown): ListStatus => {
+    if (value === 'Pending' || value === 'Inactive') return value;
+    return 'Active';
+  };
+
+  const valuesToRow = (values: CrudValues, fallbackId: string): ListRow => ({
+    id: String(values.id || fallbackId),
+    name: String(values.name || 'Untitled record'),
+    category: String(values.category || 'General'),
+    status: normalizeStatus(values.status),
+  });
+
+  const handleSave = (values: CrudValues) => {
+    if (modal?.mode === 'edit' && modal.row) {
+      const updated = valuesToRow(values, modal.row.id);
+      setItems((prev) => prev.map((r) => (r.id === modal.row?.id ? updated : r)));
+    } else {
+      const created = valuesToRow(values, nextId());
+      setItems((prev) => [created, ...prev]);
+    }
+    setModal(null);
+  };
+
+  const handleDelete = () => {
+    if (confirm) setItems((prev) => prev.filter((r) => r.id !== confirm.id));
+    setConfirm(null);
+  };
 
   const body = (
     <>
@@ -105,6 +164,17 @@ export default function PortalListPage({
           <h1 className="pg-head__title">{title}</h1>
           <p className="pg-head__sub">{subtitle}</p>
         </div>
+        {crudEnabled && (
+          <div className="pg-head__actions">
+            <button
+              type="button"
+              className="btn btn--primary"
+              onClick={() => setModal({ mode: 'create', row: null })}
+            >
+              <Plus size={16} aria-hidden="true" /> Add Record
+            </button>
+          </div>
+        )}
       </header>
 
       {stats && stats.length > 0 && (
@@ -183,7 +253,7 @@ export default function PortalListPage({
 
         <p className="pg-list__note">
           <Info size={14} aria-hidden="true" />
-          Demo data — create, edit and export actions activate once the backend API is connected.
+          Demo data - CRUD changes are saved in this browser session only.
         </p>
 
         <table className="pg-list__table">
@@ -192,12 +262,13 @@ export default function PortalListPage({
               <th scope="col">ID / Name</th>
               <th scope="col">{categoryLabel}</th>
               <th scope="col">Status</th>
+              {crudEnabled && <th scope="col">Actions</th>}
             </tr>
           </thead>
           <tbody>
             {visible.length === 0 ? (
               <tr>
-                <td className="pg-list__empty" colSpan={3}>
+                <td className="pg-list__empty" colSpan={crudEnabled ? 4 : 3}>
                   No records match your search.
                 </td>
               </tr>
@@ -212,6 +283,15 @@ export default function PortalListPage({
                   <td>
                     <span className={BADGE_CLASS[r.status]}>{r.status}</span>
                   </td>
+                  {crudEnabled && (
+                    <td>
+                      <RowActions
+                        onView={() => setModal({ mode: 'view', row: r })}
+                        onEdit={() => setModal({ mode: 'edit', row: r })}
+                        onDelete={() => setConfirm(r)}
+                      />
+                    </td>
+                  )}
                 </tr>
               ))
             )}
@@ -220,7 +300,7 @@ export default function PortalListPage({
 
         <div className="pg-list__footer">
           <div>
-            Showing <strong>{visible.length}</strong> of <strong>{rows.length}</strong> records
+            Showing <strong>{visible.length}</strong> of <strong>{items.length}</strong> records
           </div>
           <div className="pg-list__pages">
             <button type="button" className="btn btn--sm btn--secondary" disabled>
@@ -232,6 +312,34 @@ export default function PortalListPage({
           </div>
         </div>
       </div>
+
+      {crudEnabled && (
+        <>
+          <CrudModal
+            open={modal !== null}
+            title={
+              modal?.mode === 'view'
+                ? `${title} Details`
+                : modal?.mode === 'edit'
+                  ? `Edit ${title}`
+                  : `Add ${title}`
+            }
+            fields={crudFields}
+            initial={modal?.row ?? { id: nextId(), status: 'Active' }}
+            readOnly={modal?.mode === 'view'}
+            onClose={() => setModal(null)}
+            onSave={handleSave}
+          />
+          <ConfirmModal
+            open={confirm !== null}
+            title="Delete Record"
+            message={confirm ? `Delete ${confirm.name} (${confirm.id})? This cannot be undone.` : ''}
+            confirmLabel="Delete"
+            onConfirm={handleDelete}
+            onClose={() => setConfirm(null)}
+          />
+        </>
+      )}
     </>
   );
 

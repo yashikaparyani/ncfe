@@ -39,7 +39,7 @@ export default function AdminDashboard() {
           <p className="dashboard-subtitle">System-wide performance — Q2 2024 Exam Cycle · Active</p>
         </div>
         <div className="dashboard-header__actions">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', background: '#DCFCE7', borderRadius: 'var(--radius-sm)', fontSize: '0.85rem', color: '#166534', fontWeight: 600 }}>
+          <div className="dashboard-status-pill">
             <CheckCircle2 size={15} aria-hidden="true" /> All Systems Operational
           </div>
           <div className="dashboard-user">
