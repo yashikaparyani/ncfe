@@ -18,9 +18,15 @@ const encoder = new TextEncoder();
  * `AUTH_SECRET` environment variable; the development fallback is intentionally
  * obvious so a missing secret is caught before go-live.
  */
-function secret(): string {
+function configuredSecret(): string | null {
   const value = process.env.AUTH_SECRET;
   if (value && value.length > 0) return value;
+  return null;
+}
+
+function requireSecret(): string {
+  const value = configuredSecret();
+  if (value) return value;
   if (process.env.NODE_ENV === 'production') {
     throw new Error('AUTH_SECRET must be set in production.');
   }
@@ -44,10 +50,10 @@ function base64UrlDecode(input: string): Uint8Array {
   return bytes;
 }
 
-async function hmacKey(): Promise<CryptoKey> {
+async function hmacKey(secret: string): Promise<CryptoKey> {
   return crypto.subtle.importKey(
     'raw',
-    encoder.encode(secret()),
+    encoder.encode(secret),
     { name: 'HMAC', hash: 'SHA-256' },
     false,
     ['sign', 'verify'],
@@ -65,7 +71,7 @@ function timingSafeEqual(a: string, b: string): boolean {
 /** Create a signed `payload.signature` token for the given session. */
 export async function createSessionToken(session: Session): Promise<string> {
   const payload = base64UrlEncode(encoder.encode(JSON.stringify(session)));
-  const key = await hmacKey();
+  const key = await hmacKey(requireSecret());
   const signature = await crypto.subtle.sign('HMAC', key, encoder.encode(payload));
   return `${payload}.${base64UrlEncode(new Uint8Array(signature))}`;
 }
@@ -79,7 +85,10 @@ export async function verifySessionToken(token: string | undefined): Promise<Ses
   const payload = token.slice(0, dot);
   const providedSig = token.slice(dot + 1);
 
-  const key = await hmacKey();
+  const secret = configuredSecret() ?? (process.env.NODE_ENV === 'production' ? null : requireSecret());
+  if (!secret) return null;
+
+  const key = await hmacKey(secret);
   const expectedSig = base64UrlEncode(
     new Uint8Array(await crypto.subtle.sign('HMAC', key, encoder.encode(payload))),
   );

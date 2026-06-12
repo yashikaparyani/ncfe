@@ -3,10 +3,23 @@
  * Keep all hard-coded strings about "the site" here so pages stay thin.
  */
 
+const DEFAULT_SITE_URL = 'https://www.ncfe.gov.in';
+
+function normalizeSiteUrl(value: string | undefined): string {
+  const candidate = value?.trim().replace(/\/+$/, '');
+  if (!candidate) return DEFAULT_SITE_URL;
+
+  try {
+    return new URL(candidate).origin;
+  } catch {
+    return DEFAULT_SITE_URL;
+  }
+}
+
 /** Canonical origin, configurable per environment. No trailing slash. */
-export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.ncfe.gov.in'
-).replace(/\/$/, '');
+export const SITE_URL = normalizeSiteUrl(
+  process.env.NEXT_PUBLIC_SITE_URL || process.env.URL || process.env.DEPLOY_PRIME_URL,
+);
 
 export const siteConfig = {
   name: 'NCFE',
