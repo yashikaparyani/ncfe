@@ -1,0 +1,169 @@
+/* ═══════════════════════════════════════════════════════
+   Screen Reader (text-to-speech) — trigger + floating widget
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Trigger in the government ribbon ─── */
+.sr-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--transition-fast);
+}
+
+.sr-trigger:hover:not(:disabled),
+.sr-trigger:focus-visible {
+  color: var(--white);
+  text-decoration: underline;
+}
+
+.sr-trigger--active {
+  color: var(--white);
+  text-decoration: underline;
+}
+
+.sr-trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sr-trigger svg {
+  flex-shrink: 0;
+}
+
+/* ─── Floating control widget ─── */
+.sr-widget {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 300;
+  width: 280px;
+  max-width: calc(100vw - 32px);
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xl);
+  padding: 16px;
+  animation: sr-pop var(--transition-fast);
+}
+
+@keyframes sr-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sr-widget__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.sr-widget__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.sr-widget__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  color: var(--gray-600);
+  background: transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.sr-widget__close:hover {
+  background: var(--gray-100);
+  color: var(--gray-900);
+}
+
+.sr-widget__status {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--gray-600);
+  margin-bottom: 14px;
+  min-height: 2.4em;
+}
+
+.sr-widget__controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.sr-widget__rate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--gray-200);
+}
+
+.sr-widget__rate-value {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Buttons ─── */
+.sr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 42px;
+  color: var(--navy);
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.sr-btn:hover:not(:disabled) {
+  background: var(--gray-200);
+}
+
+.sr-btn--primary {
+  color: var(--white);
+  background: var(--navy);
+  border-color: var(--navy);
+}
+
+.sr-btn--primary:hover:not(:disabled) {
+  background: var(--navy-light);
+}
+
+.sr-btn--sm {
+  flex: 0 0 auto;
+  width: 38px;
+  height: 34px;
+}
+
+.sr-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

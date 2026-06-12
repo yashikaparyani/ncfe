@@ -1,0 +1,176 @@
+/* ═══════════════════════════════════════════════════════
+   Accessibility Tools Menu
+   Trigger lives in the navy government ribbon; the panel
+   drops below, anchored to the trigger's right edge.
+   ═══════════════════════════════════════════════════════ */
+
+.a11y {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* ─── Trigger button ─── */
+.a11y__trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  color: rgba(255, 255, 255, 0.85);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.a11y__trigger:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--white);
+}
+
+.a11y__trigger--open {
+  background: var(--white);
+  color: var(--navy);
+  border-color: var(--white);
+}
+
+/* Small dot when any accessibility preference is active. */
+.a11y__trigger--active::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--gold);
+  box-shadow: 0 0 0 1.5px var(--navy-dark);
+}
+
+/* ─── Panel ─── */
+.a11y__panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 200;
+  width: 320px;
+  max-width: calc(100vw - 32px);
+  background: var(--white);
+  color: var(--gray-900);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 16px;
+  animation: a11y-pop var(--transition-fast);
+}
+
+@keyframes a11y-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Little pointer toward the trigger */
+.a11y__panel::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 8px;
+  width: 12px;
+  height: 12px;
+  background: var(--white);
+  border-left: 1px solid var(--gray-200);
+  border-top: 1px solid var(--gray-200);
+  transform: rotate(45deg);
+}
+
+.a11y__panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.a11y__panel-title {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0;
+}
+
+.a11y__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  color: var(--gray-600);
+  background: transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.a11y__close:hover {
+  background: var(--gray-100);
+  color: var(--gray-900);
+}
+
+/* ─── Options grid ─── */
+.a11y__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.a11y__option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 76px;
+  padding: 10px 6px;
+  text-align: center;
+  color: var(--gray-700);
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.a11y__option:hover {
+  color: var(--navy);
+  background: var(--gray-100);
+  border-color: var(--gray-300);
+}
+
+.a11y__option[aria-pressed='true'] {
+  color: var(--white);
+  background: var(--navy);
+  border-color: var(--navy);
+}
+
+.a11y__option-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 560px) {
+  .a11y__panel {
+    width: 280px;
+  }
+}

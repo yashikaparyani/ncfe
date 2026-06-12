@@ -1,0 +1,323 @@
+/* ═══════════════════════════════════════════════════════
+   Entity Dashboard Styles
+   ═══════════════════════════════════════════════════════ */
+
+/* Reuses .dash shell from CandidateDashboard */
+
+/* ─── Stat Cards with trend ─── */
+.edash__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.edash__stat-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-200);
+  padding: 24px 24px 16px;
+  transition: all var(--transition-fast);
+}
+
+.edash__stat-card:hover {
+  border-color: var(--navy);
+  box-shadow: var(--shadow-sm);
+}
+
+.edash__stat-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 6px;
+}
+
+.edash__stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.edash__stat-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.edash__stat-icon--blue { background: #EFF6FF; color: #3B82F6; }
+.edash__stat-icon--green { background: #F0FDF4; color: var(--green); }
+.edash__stat-icon--amber { background: #FFF7ED; color: #F59E0B; }
+.edash__stat-icon--purple { background: #F5F3FF; color: #7C3AED; }
+
+.edash__stat-value {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--navy);
+  line-height: 1;
+}
+
+.edash__stat-label {
+  font-size: 0.8125rem;
+  color: var(--gray-500);
+  margin-bottom: 12px;
+}
+
+.edash__stat-trend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--green);
+  padding-top: 10px;
+  border-top: 1px solid var(--gray-100);
+}
+
+.edash__stat-trend svg {
+  width: 14px;
+  height: 14px;
+}
+
+.edash__stat-trend span:last-child {
+  color: var(--gray-500);
+}
+
+/* ─── Registration rows ─── */
+.edash__reg-row {
+  display: flex;
+  align-items: center;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--gray-100);
+  transition: background var(--transition-fast);
+  cursor: pointer;
+}
+
+.edash__reg-row:last-child {
+  border-bottom: none;
+}
+
+.edash__reg-row:hover {
+  background: var(--gray-50);
+}
+
+.edash__reg-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--white);
+  flex-shrink: 0;
+  margin-right: 12px;
+}
+
+.edash__reg-avatar--blue { background: #3B82F6; }
+.edash__reg-avatar--purple { background: #7C3AED; }
+.edash__reg-avatar--teal { background: #0D9488; }
+.edash__reg-avatar--amber { background: #F59E0B; }
+
+.edash__reg-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.edash__reg-name {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.edash__reg-email {
+  font-size: 0.6875rem;
+  color: var(--gray-500);
+}
+
+.edash__reg-date {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  margin-right: 12px;
+  white-space: nowrap;
+}
+
+.edash__reg-badge {
+  padding: 3px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+.edash__reg-badge--pending {
+  background: #FFF7ED;
+  color: #EA580C;
+  border: 1px solid #FED7AA;
+}
+
+.edash__reg-badge--approved {
+  background: #F0FDF4;
+  color: var(--green);
+  border: 1px solid #BBF7D0;
+}
+
+/* ─── Quick Actions ─── */
+.edash__quick {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-200);
+  padding: 24px 28px;
+}
+
+.edash__quick-title {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 16px;
+}
+
+.edash__quick-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.edash__quick-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 16px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.edash__quick-btn:hover {
+  border-color: var(--navy);
+  color: var(--navy);
+  background: #F8FAFF;
+}
+
+.edash__quick-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ─── Footer ─── */
+.edash__footer {
+  background: var(--white);
+  border-top: 1px solid var(--gray-200);
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.edash__footer a {
+  color: var(--gray-500);
+  transition: color var(--transition-fast);
+}
+
+.edash__footer a:hover {
+  color: var(--navy);
+}
+
+.edash__footer-sep {
+  color: var(--gray-300);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1200px) {
+  .edash__stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .edash__quick-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .edash__stats {
+    grid-template-columns: 1fr;
+  }
+
+  .edash__quick-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Shared data tables (entity/portal list pages) ─── */
+.data-table-wrap {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  box-shadow: var(--shadow-sm);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+/* Keep cell content on a single line; the wrapper scrolls horizontally
+   when the table is wider than the viewport (responsive on small screens). */
+.data-table th,
+.data-table td {
+  white-space: nowrap;
+}
+
+.data-table thead th {
+  text-align: left;
+  padding: 13px 20px;
+  background: var(--gray-50);
+  border-bottom: 1px solid var(--gray-200);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  white-space: nowrap;
+}
+
+.data-table tbody td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--gray-100);
+  color: var(--gray-700);
+  vertical-align: middle;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tbody tr {
+  transition: background var(--transition-fast);
+}
+
+.data-table tbody tr:hover {
+  background: #F8FBFF;
+}
+
+/* Action buttons reveal more clearly on row hover */
+.data-table tbody tr .row-actions {
+  opacity: 0.85;
+  transition: opacity var(--transition-fast);
+}
+
+.data-table tbody tr:hover .row-actions {
+  opacity: 1;
+}

@@ -1,0 +1,403 @@
+/* ═══════════════════════════════════════════════════════
+   NCFE Assessment Portal — Global Styles
+   Fonts are self-hosted via next/font (see app/layout.tsx);
+   the family is exposed through the --font-inter CSS variable.
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Design Tokens ─── */
+:root {
+  --navy: #0b2545;
+  --navy-light: #13315c;
+  --navy-dark: #061a33;
+  --orange: #e0533c;
+  --orange-hover: #c9412b;
+  --gold: #f4a261;
+  --green: #2d8a4e;
+  --white: #ffffff;
+  --gray-50: #f8f9fa;
+  --gray-100: #f1f3f5;
+  --gray-200: #e9ecef;
+  --gray-300: #dee2e6;
+  --gray-400: #ced4da;
+  --gray-500: #adb5bd;
+  --gray-600: #6c757d;
+  --gray-700: #495057;
+  --gray-800: #343a40;
+  --gray-900: #212529;
+
+  --font-primary: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    system-ui, sans-serif;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 16px 50px rgba(0, 0, 0, 0.18);
+
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-slow: 0.4s ease;
+
+  /* Accessibility: font-size scaling */
+  --font-scale: 1;
+}
+
+/* ─── Reset & Base ─── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: calc(16px * var(--font-scale));
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-primary);
+  color: var(--gray-900);
+  background: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Visible keyboard focus for accessibility. */
+:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 2px;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gray-300);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-400);
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: var(--navy);
+  color: var(--white);
+}
+
+/* ─── App shell ─── */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Utility ─── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─── Forms & Inputs ─── */
+.form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.form__row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form__label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--gray-700);
+}
+
+.form__input,
+.form__select {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 16px;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: var(--gray-900);
+  background: var(--white);
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.form__input:focus,
+.form__select:focus {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(11, 37, 69, 0.1);
+}
+
+.form__input:read-only,
+.form__select:disabled {
+  background: var(--gray-50);
+  color: var(--gray-600);
+  cursor: default;
+}
+
+/* ─── Buttons ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  background: var(--navy);
+  color: var(--white);
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: var(--navy-light);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--secondary {
+  background: var(--gray-100);
+  color: var(--navy);
+}
+
+.btn--secondary:hover:not(:disabled) {
+  background: var(--gray-200);
+}
+
+.btn--outline {
+  background: transparent;
+  border-color: var(--gray-300);
+  color: var(--navy);
+}
+
+.btn--outline:hover:not(:disabled) {
+  border-color: var(--navy);
+  background: var(--gray-50);
+}
+
+.btn--sm {
+  padding: 6px 12px;
+  font-size: 0.8125rem;
+  border-radius: var(--radius-sm);
+}
+
+/* ═══════════════════════════════════════════════════════
+   Accessibility Tools — page-level overrides
+   Toggled by classes on <html> from components/layout/AccessibilityMenu.tsx.
+   Font size already scales via --font-scale on `html` above.
+   ═══════════════════════════════════════════════════════ */
+
+/* Grayscale & Negative (inverted) contrast — combinable image filters. */
+.a11y-grayscale {
+  filter: grayscale(100%);
+}
+.a11y-invert {
+  filter: invert(100%);
+}
+.a11y-grayscale.a11y-invert {
+  filter: grayscale(100%) invert(100%);
+}
+
+/* High contrast — black canvas, white text, yellow links. The universal
+   override guarantees legibility regardless of a component's own colors.
+   `background-image: none` is essential: it removes decorative gradients
+   (e.g. the hero's white text backdrop) that a background-color alone leaves. */
+.a11y-high-contrast body {
+  background: #000 !important;
+}
+.a11y-high-contrast *,
+.a11y-high-contrast *::before,
+.a11y-high-contrast *::after {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: #fff !important;
+  border-color: #fff !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+.a11y-high-contrast a,
+.a11y-high-contrast a * {
+  color: #ff0 !important;
+}
+.a11y-high-contrast button,
+.a11y-high-contrast .btn,
+.a11y-high-contrast input,
+.a11y-high-contrast select,
+.a11y-high-contrast textarea {
+  border: 1px solid #fff !important;
+}
+
+/* Light background — strip background imagery/color to a plain light page. */
+.a11y-light-bg body {
+  background: #fff !important;
+}
+.a11y-light-bg *,
+.a11y-light-bg *::before,
+.a11y-light-bg *::after {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: #111 !important;
+  border-color: #999 !important;
+  text-shadow: none !important;
+}
+.a11y-light-bg a,
+.a11y-light-bg a * {
+  color: #0b2545 !important;
+}
+
+/* Decorative full-bleed imagery (e.g. the hero photo) overlays text, so it
+   must be suppressed under the contrast schemes or the heading is unreadable.
+   Collapse the hero's fixed aspect-ratio too, so it shrinks to its content
+   instead of leaving a large empty band. */
+.a11y-high-contrast .hero__bg,
+.a11y-light-bg .hero__bg {
+  display: none !important;
+}
+.a11y-high-contrast .hero,
+.a11y-light-bg .hero {
+  aspect-ratio: auto !important;
+}
+
+/* The header logo is dark ink on a transparent ground — keep it on a white
+   chip so it stays visible against the black high-contrast header. */
+.a11y-high-contrast .header__logo-img {
+  background: #fff !important;
+  padding: 4px 8px !important;
+  border-radius: 6px !important;
+}
+
+/* Underline every link. */
+.a11y-underline a {
+  text-decoration: underline !important;
+}
+
+/* Readable font — switch to a plain, widely-installed system sans (no CDN). */
+.a11y-readable,
+.a11y-readable * {
+  font-family: Verdana, Tahoma, Arial, sans-serif !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* The sticky header & dropdown must stay opaque (the universal override above
+   makes every background transparent), otherwise scrolled content shows through. */
+.a11y-high-contrast .header,
+.a11y-high-contrast .a11y__panel,
+.a11y-high-contrast .sr-widget {
+  background: #000 !important;
+}
+.a11y-light-bg .header,
+.a11y-light-bg .a11y__panel,
+.a11y-light-bg .sr-widget {
+  background: #fff !important;
+}
+
+/* The selected-option highlight relies on a background colour, which the
+   universal overrides above strip to transparent. Re-assert a strong, high-
+   specificity selected style for each contrast scheme so the active options
+   stay visibly highlighted in the menu. */
+.a11y-high-contrast .a11y__option[aria-pressed='true'] {
+  background-color: #ff0 !important;
+  border-color: #ff0 !important;
+}
+.a11y-high-contrast .a11y__option[aria-pressed='true'],
+.a11y-high-contrast .a11y__option[aria-pressed='true'] * {
+  color: #000 !important;
+}
+.a11y-light-bg .a11y__option[aria-pressed='true'] {
+  background-color: #0b2545 !important;
+  border-color: #0b2545 !important;
+}
+.a11y-light-bg .a11y__option[aria-pressed='true'],
+.a11y-light-bg .a11y__option[aria-pressed='true'] * {
+  color: #fff !important;
+}

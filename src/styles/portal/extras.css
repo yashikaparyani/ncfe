@@ -1,0 +1,56 @@
+/* ═══════════════════════════════════════════════════════
+   Portal extras — CSP-safe replacements for external images.
+
+   The demo used third-party image hosts (dicebear avatars, Unsplash
+   photos). The production CSP allows `img-src 'self' blob: data:` only,
+   so user avatars and proctoring tiles are rendered as self-contained,
+   same-origin elements (CSS initials / placeholders) instead.
+   ═══════════════════════════════════════════════════════ */
+
+/* Initials avatar used in the candidate/entity topbar, in place of an
+   <img> pointed at an avatar CDN. Inherits .dash__topbar-avatar sizing. */
+.dash__topbar-avatar--initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.dash__topbar-avatar--navy {
+  background: var(--navy);
+}
+
+.dash__topbar-avatar--orange {
+  background: var(--orange);
+}
+
+/* Proctoring video tile placeholder, in place of an <img> from a photo CDN.
+   The live video feed would be wired to an authenticated, same-origin
+   media stream in production. */
+.pdash__video--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1f2937, #111827);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.pdash__video-initials {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}

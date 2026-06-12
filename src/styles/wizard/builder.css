@@ -1,0 +1,167 @@
+/* ═══════════════════════════════════════════════════════
+   Builder Wizard — full-page admin authoring chrome
+   (Assessment Builder). bwiz__ namespace so it never
+   collides with the card-style registration wizard styles.
+   (Ported from the frontend prototype.)
+   ═══════════════════════════════════════════════════════ */
+
+.bwiz {
+  flex: 1;
+  min-width: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--gray-50);
+}
+
+.bwiz__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 32px;
+  background: var(--navy);
+  color: var(--white);
+}
+
+.bwiz__back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.bwiz__back:hover { color: var(--white); }
+
+.bwiz__logo { font-size: 1.0625rem; font-weight: 800; letter-spacing: 0.02em; }
+.bwiz__logo span { font-weight: 500; opacity: 0.85; margin-left: 6px; }
+
+.bwiz__progress {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  padding: 24px 32px;
+}
+
+.bwiz__progress-container { max-width: 1080px; margin: 0 auto; position: relative; }
+
+.bwiz__progress-track {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gray-200);
+  border-radius: 999px;
+}
+
+.bwiz__progress-fill { height: 100%; background: var(--green); border-radius: 999px; transition: width 0.3s ease; }
+
+.bwiz__steps { display: flex; justify-content: space-between; position: relative; gap: 4px; }
+.bwiz__step { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+
+.bwiz__step-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid var(--gray-300);
+  color: var(--gray-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  transition: all var(--transition-fast);
+}
+
+.bwiz__step--active .bwiz__step-icon { background: var(--orange); border-color: var(--orange); color: var(--white); }
+.bwiz__step--completed .bwiz__step-icon { background: var(--green); border-color: var(--green); color: var(--white); }
+
+.bwiz__step-label { font-size: 0.72rem; font-weight: 600; color: var(--gray-500); text-align: center; white-space: nowrap; }
+.bwiz__step--active .bwiz__step-label { color: var(--navy); }
+.bwiz__step--completed .bwiz__step-label { color: var(--gray-700); }
+
+.bwiz__main { flex: 1; width: 100%; max-width: 760px; margin: 0 auto; padding: 32px 24px 48px; }
+
+.bwiz__content-box {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 32px;
+}
+
+.bwiz__footer { display: flex; align-items: center; justify-content: space-between; margin-top: 24px; }
+
+.bwiz__btn-back,
+.bwiz__btn-next,
+.bwiz__btn-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.bwiz__btn-back { background: var(--white); color: var(--gray-700); border-color: var(--gray-300); }
+.bwiz__btn-back:hover:not(:disabled) { background: var(--gray-50); }
+.bwiz__btn-back:disabled { opacity: 0.5; cursor: default; }
+.bwiz__btn-next { background: var(--navy); color: var(--white); }
+.bwiz__btn-next:hover { background: var(--navy-light); }
+.bwiz__btn-submit { background: var(--green); color: var(--white); }
+.bwiz__btn-submit:hover { filter: brightness(0.95); }
+
+/* Step content rendered inside the content box by each step page */
+.wizard__step-content { display: flex; flex-direction: column; gap: 18px; }
+.wizard__step-content > .form__group { flex: 0 0 auto; }
+.wizard__step-content > .form__row { margin-bottom: 0; }
+
+.wizard__step-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.wizard__step-icon-large {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.wizard__step-title { font-size: 1.25rem; font-weight: 800; color: var(--navy); margin-bottom: 2px; }
+.wizard__step-desc { font-size: 0.875rem; color: var(--gray-500); }
+
+/* Selectable option cards (Question Assignment step) */
+.wizard__card-option {
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: var(--white);
+}
+.wizard__card-option:hover { border-color: var(--navy); }
+.wizard__card-option--selected { border-color: var(--navy); background: #F8FAFF; }
+.wizard__card-option-title { font-weight: 700; color: var(--navy); font-size: 0.9rem; margin-bottom: 4px; }
+.wizard__card-option-desc { font-size: 0.78rem; color: var(--gray-500); line-height: 1.5; }
+
+@media (max-width: 768px) {
+  .bwiz__header { padding: 16px 20px; }
+  .bwiz__progress { padding: 20px 16px; overflow-x: auto; }
+  .bwiz__step-label { display: none; }
+  .bwiz__content-box { padding: 20px; }
+}
