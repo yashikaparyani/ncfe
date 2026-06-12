@@ -102,8 +102,11 @@ export default function EntityDashboard() {
         <div className="edash__quick">
           <h2 className="edash__quick-title">Quick Actions</h2>
           <div className="edash__quick-grid">
-            <button className="edash__quick-btn" onClick={() => router.push('/entity/candidates/create')}>
+            <button className="edash__quick-btn" onClick={() => router.push('/entity/candidates')}>
               <AddUser style={{ color: 'var(--green)' }} aria-hidden="true" /> Add Candidate
+            </button>
+            <button className="edash__quick-btn" onClick={() => router.push('/entity/enrolment')}>
+              <AddUser style={{ color: '#2563EB' }} aria-hidden="true" /> Enrol Candidate
             </button>
             <button className="edash__quick-btn" onClick={() => router.push('/entity/exams/EX-1001/slots')}>
               <CalendarRange style={{ color: '#3B82F6' }} aria-hidden="true" /> Create Exam Slot

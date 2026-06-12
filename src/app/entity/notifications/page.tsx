@@ -26,6 +26,8 @@ export default function EntityNotificationsPage() {
       categoryLabel="Type"
       rows={rows}
       topbar={TOPBAR}
+      filterByCategory
+      hideDemoNote
     />
   );
 }

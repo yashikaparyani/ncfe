@@ -66,6 +66,9 @@ export default function PortalListPage({
   searchLabel,
   filterByCategory = false,
   enableCrud,
+  moreInfoOnly = false,
+  editWithoutDelete = false,
+  hideDemoNote = false,
 }: {
   title: string;
   subtitle: string;
@@ -82,8 +85,14 @@ export default function PortalListPage({
    */
   filterByCategory?: boolean;
   enableCrud?: boolean;
+  /** Read-only "More Info" action per row (no edit/delete). */
+  moreInfoOnly?: boolean;
+  /** Create + edit without delete (entity invigilators, etc.). */
+  editWithoutDelete?: boolean;
+  hideDemoNote?: boolean;
 }) {
   const crudEnabled = enableCrud ?? shell === 'admin';
+  const showActions = crudEnabled || moreInfoOnly || editWithoutDelete;
   const [items, setItems] = useState<ListRow[]>(() => [...rows]);
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState<'All Status' | ListStatus>('All Status');
@@ -170,7 +179,7 @@ export default function PortalListPage({
           <h1 className="pg-head__title">{title}</h1>
           <p className="pg-head__sub">{subtitle}</p>
         </div>
-        {crudEnabled && (
+        {(crudEnabled || editWithoutDelete) && (
           <div className="pg-head__actions">
             <button
               type="button"
@@ -257,10 +266,12 @@ export default function PortalListPage({
           </div>
         </div>
 
-        <p className="pg-list__note">
-          <Info size={14} aria-hidden="true" />
-          Demo data - CRUD changes are saved in this browser session only.
-        </p>
+        {!hideDemoNote && (
+          <p className="pg-list__note">
+            <Info size={14} aria-hidden="true" />
+            Demo data — changes are saved in this browser session only.
+          </p>
+        )}
 
         <table className="pg-list__table">
           <thead>
@@ -268,13 +279,13 @@ export default function PortalListPage({
               <th scope="col">ID / Name</th>
               <th scope="col">{categoryLabel}</th>
               <th scope="col">Status</th>
-              {crudEnabled && <th scope="col">Actions</th>}
+              {showActions && <th scope="col">Actions</th>}
             </tr>
           </thead>
           <tbody>
             {visible.length === 0 ? (
               <tr>
-                <td className="pg-list__empty" colSpan={crudEnabled ? 4 : 3}>
+                <td className="pg-list__empty" colSpan={showActions ? 4 : 3}>
                   No records match your search.
                 </td>
               </tr>
@@ -289,13 +300,23 @@ export default function PortalListPage({
                   <td>
                     <span className={BADGE_CLASS[r.status]}>{r.status}</span>
                   </td>
-                  {crudEnabled && (
+                  {showActions && (
                     <td>
-                      <RowActions
-                        onView={() => setModal({ mode: 'view', row: r })}
-                        onEdit={() => setModal({ mode: 'edit', row: r })}
-                        onDelete={() => setConfirm(r)}
-                      />
+                      {moreInfoOnly ? (
+                        <button
+                          type="button"
+                          className="btn btn--sm btn--secondary"
+                          onClick={() => setModal({ mode: 'view', row: r })}
+                        >
+                          More Info
+                        </button>
+                      ) : (
+                        <RowActions
+                          onView={crudEnabled ? () => setModal({ mode: 'view', row: r }) : undefined}
+                          onEdit={() => setModal({ mode: 'edit', row: r })}
+                          onDelete={crudEnabled ? () => setConfirm(r) : undefined}
+                        />
+                      )}
                     </td>
                   )}
                 </tr>
@@ -319,13 +340,15 @@ export default function PortalListPage({
         </div>
       </div>
 
-      {crudEnabled && (
+      {(crudEnabled || moreInfoOnly || editWithoutDelete) && (
         <>
           <CrudModal
             open={modal !== null}
             title={
               modal?.mode === 'view'
-                ? `${title} Details`
+                ? moreInfoOnly
+                  ? `${title} — More Info`
+                  : `${title} Details`
                 : modal?.mode === 'edit'
                   ? `Edit ${title}`
                   : `Add ${title}`
@@ -336,14 +359,16 @@ export default function PortalListPage({
             onClose={() => setModal(null)}
             onSave={handleSave}
           />
-          <ConfirmModal
-            open={confirm !== null}
-            title="Delete Record"
-            message={confirm ? `Delete ${confirm.name} (${confirm.id})? This cannot be undone.` : ''}
-            confirmLabel="Delete"
-            onConfirm={handleDelete}
-            onClose={() => setConfirm(null)}
-          />
+          {crudEnabled && (
+            <ConfirmModal
+              open={confirm !== null}
+              title="Delete Record"
+              message={confirm ? `Delete ${confirm.name} (${confirm.id})? This cannot be undone.` : ''}
+              confirmLabel="Delete"
+              onConfirm={handleDelete}
+              onClose={() => setConfirm(null)}
+            />
+          )}
         </>
       )}
     </>

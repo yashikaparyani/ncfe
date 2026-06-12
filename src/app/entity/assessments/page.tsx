@@ -22,10 +22,12 @@ export default function EntityAssessmentsPage() {
   return (
     <PortalListPage
       title="Assessments"
-      subtitle="View assigned assessments and manage permitted entity exams."
+      subtitle="View assigned assessments and permitted entity exams."
       categoryLabel="Type"
       rows={rows}
       topbar={TOPBAR}
+      moreInfoOnly
+      hideDemoNote
     />
   );
 }

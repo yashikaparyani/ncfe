@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard, BookOpen, UserCircle, Award, Bell, HelpCircle, Settings,
   Library, Users, UserPlus, FileText, CalendarRange, UserCheck, MonitorCheck, BarChart2,
-  Shield, Sliders, AlertTriangle, ShieldCheck, Layers, LogOut, type LucideIcon,
+  Shield, Sliders, AlertTriangle, ShieldCheck, Layers, LogOut, ClipboardList, type LucideIcon,
 } from 'lucide-react';
 import { logoutAction } from '@/lib/auth/actions';
 import type { Role } from '@/lib/auth/config';
@@ -44,8 +44,10 @@ const NAV: Record<Role, NavItem[]> = {
   ],
   entity: [
     { icon: LayoutDashboard, label: 'Dashboard', to: '/entity/dashboard' },
+    { icon: Shield, label: 'Roles', to: '/entity/roles' },
     { icon: Users, label: 'Users', to: '/entity/users' },
     { icon: UserPlus, label: 'Candidates', to: '/entity/candidates' },
+    { icon: ClipboardList, label: 'Enrolment', to: '/entity/enrolment' },
     { icon: FileText, label: 'Assessments', to: '/entity/assessments' },
     { icon: CalendarRange, label: 'Exam Slots', to: '/entity/exams/EX-1001/slots', match: '/entity/exams' },
     { icon: UserCheck, label: 'Invigilators', to: '/entity/invigilators' },

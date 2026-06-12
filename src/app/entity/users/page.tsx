@@ -22,7 +22,7 @@ export default function EntityUsersPage() {
   return (
     <PortalListPage
       title="Entity Users"
-      subtitle="Create entity users and assign operational roles."
+      subtitle="Create entity users and assign roles defined in Role Management."
       categoryLabel="Role"
       rows={rows}
       topbar={TOPBAR}
