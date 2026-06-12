@@ -50,11 +50,10 @@ interface TopbarConfig {
 }
 
 /**
- * Presentational list page used by the placeholder sidebar routes. It renders
- * a header, optional KPI cards, a searchable/filterable table and static
- * pagination. Data is demo-only and held in props — there are NO mutations
- * (no create/edit/delete) until the backend API is wired, per the chosen
- * "presentational + client validation" scope. Filtering is client-side only.
+ * List page used by placeholder sidebar routes. Renders a header, optional KPI
+ * cards, a searchable/filterable table and pagination. Admin shell pages (or
+ * `enableCrud`) get client-side create/view/edit/delete via CrudModal; changes
+ * are session-only until the backend API is wired. Filtering is client-side.
  */
 export default function PortalListPage({
   title,
@@ -139,6 +138,13 @@ export default function PortalListPage({
     name: String(values.name || 'Untitled record'),
     category: String(values.category || 'General'),
     status: normalizeStatus(values.status),
+  });
+
+  const rowToCrudValues = (row: ListRow): CrudValues => ({
+    id: row.id,
+    name: row.name,
+    category: row.category,
+    status: row.status,
   });
 
   const handleSave = (values: CrudValues) => {
@@ -325,7 +331,7 @@ export default function PortalListPage({
                   : `Add ${title}`
             }
             fields={crudFields}
-            initial={modal?.row ?? { id: nextId(), status: 'Active' }}
+            initial={modal?.row ? rowToCrudValues(modal.row) : { id: nextId(), status: 'Active' }}
             readOnly={modal?.mode === 'view'}
             onClose={() => setModal(null)}
             onSave={handleSave}
